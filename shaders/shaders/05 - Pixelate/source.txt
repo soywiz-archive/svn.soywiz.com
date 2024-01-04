@@ -1,0 +1,15 @@
+input  image4 src;
+output pixel4 dst;
+
+parameter float size <
+	minValue     : 1.0;
+	defaultValue : 1.0;
+	maxValue     : 64.0;
+>;
+
+void evaluatePixel() {
+	dst = sampleNearest(
+		src,
+		floor(outCoord() / size) * size
+	);
+}

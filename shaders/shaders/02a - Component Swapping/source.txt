@@ -1,0 +1,11 @@
+input  image4 src;
+output pixel4 dst;
+
+void evaluatePixel() {
+	pixel4 color = sampleNearest(
+		src,
+		outCoord()
+	);
+	dst.rgb = color.gbr;
+	dst.a = 0.7;
+}

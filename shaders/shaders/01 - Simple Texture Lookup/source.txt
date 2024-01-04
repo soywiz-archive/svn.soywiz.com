@@ -1,0 +1,9 @@
+input  image4 src;
+output pixel4 dst;
+
+void evaluatePixel() {
+	dst = sampleNearest(
+		src,
+		outCoord()
+	);
+}

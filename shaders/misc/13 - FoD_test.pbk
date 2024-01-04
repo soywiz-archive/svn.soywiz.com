@@ -1,0 +1,60 @@
+<languageVersion: 1.0;>
+
+kernel HorizontalGaussianBlur
+<   namespace : "com.adobe.example";
+    vendor : "Adobe Systems Inc.";
+    version : 1;
+    description : "The horizontal convolution of a Gaussian blur"; >
+{
+    input image4 src;
+    input image4 mask;
+    output float4 result;
+    
+    parameter float depth
+    <
+        minValue     : -1.0;
+        maxValue     : +1.0;
+        defaultValue :  0.0;
+    >;
+    
+    const float PI = 3.14159265358979323846;
+
+    // http://en.wikipedia.org/wiki/Gaussian_blur
+    // 1 PASS and calculating all the time.
+    // It could be make in two passes or precalculating in a matrix the values or so.
+    pixel4 gaussian(image4 img, float2 coord, float _mm) {
+        float mm = 0.42 + clamp(_mm, 0.0, 1.0) * (2.2 - 0.42);
+        float mm2 = 2.0 * mm * mm;
+        float pi_mm = (1.0 / (PI * mm2));
+        float4 ret = float4(0, 0, 0, 0);
+        float normalize = 0.0;
+        for (int y = 0; y <= 3; y++) {
+            for (int x = 0; x <= 3; x++) {
+                float g = pi_mm * exp(-(float(x*x + y*y) / mm2));
+                normalize += g * (1.0 + float(x != 0 || y != 0) + float(x != 0) + float(y != 0));
+            }
+        }
+        for (int y = 0; y <= 3; y++) {
+            for (int x = 0; x <= 3; x++) {
+                float g = pi_mm * exp(-(float(x*x + y*y) / mm2)) / normalize;
+                if (x == 0 && y == 0) {
+                    ret += sampleNearest(img, coord) * g;
+                } else {
+                    ret += sampleNearest(img, coord + float2(+x, +y)) * g;
+                    ret += sampleNearest(img, coord + float2(-x, -y)) * g;
+                    if (x != 0) ret += sampleNearest(img, coord + float2(-x, +y)) * g;
+                    if (y != 0) ret += sampleNearest(img, coord + float2(+x, -y)) * g;
+                }
+                //float2(x, y);
+            }
+        }
+        return pixel4(ret);
+    }
+    
+    void evaluatePixel()
+    {
+        //depth
+        result = gaussian(src, outCoord(), sampleNearest(mask, outCoord()).r + depth);
+        //result = sampleNearest(src, outCoord());
+    }
+}

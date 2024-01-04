@@ -1,0 +1,23 @@
+<languageVersion : 1.0;>
+
+kernel NewFilter<namespace : "Your Namespace"; vendor : "Your Vendor"; version : 1; description : "your description"; > {
+    input  image4 src;
+    output pixel4 dst;
+    
+    parameter float threshold <
+        minValue     : 0.0;
+        defaultValue : 0.2;
+        maxValue     : 1.0;
+    >;
+
+    void evaluatePixel() {
+		pixel4 col1 = texture2D(src, position);
+		pixel4 col2 = texture2D(src, position + float2(1, 1));
+        dst = sampleNearest(src, floor(outCoord() / size) * size);
+		if (length(col1 - col2) >= threshold) {
+			dst = pixel4(0, 0, 0, 1);
+		} else {
+			dst = pixel4(1, 1, 1, 1);
+		}
+    }
+}

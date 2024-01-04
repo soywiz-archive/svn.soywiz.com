@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html lang="es">
+	<head>
+		<title>GameLib</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<link rel="stylesheet" href="styles.css" type="text/css">
+		<script src="scripts.js"></script>
+	</head>
+	<body>
+		<div id="menu">
+			<div id="menub" onclick="swapmenu();"></div>
+			<div id="menuc">
+				<img src="logo_mini.png" />
+				<ul style="padding:6px 0 8px 18px;margin:0;">
+					<li><a href="index.html">Página principal</a></li>
+					<li><a href="docs.html"><strong>Documentación</strong></a></li>
+					<li><a href="index.html#ejemplos">Ejemplos</a></li>
+					<li><a href="index.html#windows">Usar GameLib en Windows</a></li>
+					<li><a href="index.html#svn">Subversion</a></li>
+					<li><a href="index.html#contact">Contacta</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="content">
+			<center><img src="logo.png" /><div style="float:right;display:inline;"><a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=0&amp;t=209"><img border="0" alt="Firefox 2" title="Firefox 2" src="http://sfx-images.mozilla.org/affiliates/Buttons/firefox2/firefox-spread-btn-1.png"/></a></div></center>
+			<h1>¿Qué es GameLib?</h1>
+			<div class="content">
+				<p>Gamelib es una <strong>librería</strong> para C <strong>diseñada para crear videojuegos de forma fácil y rápida</strong>. Está diseñado para hacer juegos 2D usando aceleración gráfica.</p>
+				<p>GameLib utiliza <strong>SDL</strong>, <strong>SDL_image</strong>, <strong>SDL_mixer</strong>, <strong>SDL_ttf</strong>, <strong>SDL_net</strong>, <strong>OpenGL</strong>. Sin embargo no es necesario conocer estas librerías para usarlo.</p>
+				<p>El API de GameLib es sencillo y su instalación en windows es cosa de unos minutos.</p>
+				<p>Permite cargar imágenes <strong>BMP</strong>, <strong>PNG</strong>, <strong>JPG</strong>. Permite cargar y mostrar fuentes <strong>TrueType y OpenType</strong> con borde suavizado. Permite pintar <strong>imágenes rotadas, escaladas y con transparencias</strong> con aceleración gráfica <strong>MUY RÁPIDO</strong>. Permite reproducir módulos de sonido <strong>MOD</strong>, <strong>XM</strong>, <strong>S3M</strong>. Reproducir <strong>MP3</strong>, <strong>WAV</strong> y <strong>OGG</strong>. Y todo eso con muy pocas líneas de código.</p>
+				<p>Puedes ver un <a href="simple.rar">ejemplo aquí</a>. Necesitas <a href="dlls.rar">estas DLL</a></p>
+				<p align="center">
+					<em>Powered by:</em><br />
+					<a href="http://www.libsdl.org/" target="_blank"><img src="powered_sdl.png" alt="SDL" /></a>
+					<a href="http://www.opengl.org/" target="_blank"><img src="powered_ogl.png" alt="OpenGL" /></a>
+				</p>
+			</div>
+			<h1>¿Porqué GameLib?</h1>
+			<div class="content">
+				<p>Si estás estudiando programación y quieres usar C para algo mas que ver una consola
+				negra mostrando texto aburrido y quieres hacer tus propios juegos pero nunca has visto
+				nada al respecto, GameLib es para ti.</p>
+				<p>Gamelib tiene también como objetivo promocionar el uso de C y ayudar
+				a su aprendizaje de una forma divertida.</p>
+
+				<p><em>Un programa usando GameLib podría ser algo así:</em></p>
+<pre class='cppcode' style="background-color:#e8e8e8;padding:4px 6px;border:2px solid #b0b0b0;"><span class='cpp09'>#include &lt;gamelib/gamelib.h&gt;
+</span>
+<span class='cpp05'>int</span> main<span class='cpp10'>()</span> <span class='cpp10'>{</span>
+
+    VideoModeSetTitle<span class='cpp10'>(</span><span class='cpp06'>&quot;Simple Example&quot;</span><span class='cpp10'>);</span>
+    VideoModeSet<span class='cpp10'>(</span><span class='cpp04'>640</span><span class='cpp10'>,</span> <span class='cpp04'>480</span><span class='cpp10'>,</span> <span class='cpp05'>true</span><span class='cpp10'>);</span>
+
+    <span class='cpp05'>while</span> <span class='cpp10'>(!</span>key<span class='cpp10'>[</span>_esc<span class='cpp10'>])</span> <span class='cpp10'>{</span>
+        VideoModeEnable2D<span class='cpp10'>();</span>
+        <span class='cpp10'>{</span>
+
+            ColorSet<span class='cpp10'>(</span><span class='cpp04'>1.0f</span><span class='cpp10'>,</span> <span class='cpp04'>1.0f</span><span class='cpp10'>,</span> <span class='cpp04'>1.0f</span><span class='cpp10'>,</span> <span class='cpp04'>0.5f</span><span class='cpp10'>);</span>
+            DrawFilledRectangle<span class='cpp10'>(</span><span class='cpp04'>0</span><span class='cpp10'>,</span> <span class='cpp04'>0</span><span class='cpp10'>,</span> screenWidth<span class='cpp10'>,</span> screenHeight<span class='cpp10'>);</span>
+
+        <span class='cpp10'>}</span>
+        VideoModeDisable2D<span class='cpp10'>();</span>
+        VideoModeFrame<span class='cpp10'>();</span>
+    <span class='cpp10'>}</span>
+
+    <span class='cpp05'>return</span> <span class='cpp04'>0</span><span class='cpp10'>;</span>
+
+<span class='cpp10'>}</span>
+</pre>
+
+
+			</div>
+			<a name="ejemplos"></a>
+			<h1>¿Algún ejemplo?</h1>
+			<div class="content">
+				<p>Aquí puedes ver un pequeño ejemplo de funcionamiento con el codigo fuente comentado y coloreado:</p>
+				<p align="center">
+					<img src="screenshots/1.png" /><br />
+					<a href="screenshots/1.html" style="margin:2px 4px;padding:2px 8px;background-color:#f0f0f0;border:2px solid #a0a0a0;">Ver el Codigo fuente del programa</a>
+				</p>
+				<p>Si quieres ver un ejemplo todavía mas simple, con lo mínimo para ejecutar una aplicación hecha con gamelib, haz click <a href="screenshots/0.html">aquí</a>.</p>
+				<p>Algún otro ejemplo mas trabajado que usa Gamelib</p>
+				<p align="center">
+					<img src="screenshots/2.jpg" /><br />
+					<img src="screenshots/3.jpg" /><br />
+				</p>
+			</div>
+			<a name="windows"></a>
+			<h1>¿Cómo usar gamelib en windows con facilidad?</h1>
+			<div class="content">
+				<p>Se puede usar GameLib desde windows con <a href="http://www.bloodshed.net/devcpp.html" target="_blank">Dev-Cpp</a>. Dev-Cpp es un entorno de desarrollo de C
+				gratuito para windows que usa el compilador de C/C++ <a href="http://www.mingw.org/" target="_blank">MingW</a>.</p>
+				<div style="border:2px solid #9a9a9a;background-color:#f5f5f5;padding:2px 14px;">
+					<p style="font-weight:bold;">Lo que necesitas:</p>
+					<ol>
+						<li>Descargar Dev-CPP desde <a href="http://prdownloads.sourceforge.net/dev-cpp/devcpp-4.9.9.2_setup.exe" target="_blank">aquí</a></li>
+						<li>Descargar el DevPak de gamelib desde <a href="gamelib.DevPak">aquí</a> <em>(06-05-2007)</em></li>
+					</ol>
+				</div>
+				<p>Una vez bajadas las dos cosas, instalas del Dev-Cpp y con el Dev-Cpp instalado, al abrir el gamelib.DevPak, se debería instalar</p>
+				<p>Ahora ejecutas el Dev-Cpp y accedes al menú <strong>Archivo</strong> -&gt; <strong>Nuevo</strong> -&gt; <strong>Proyecto</strong>. Si
+				se ha instalado correctamente, debería aparecer una ventana como esta:</p>
+				<p align="center"><img src="new_project.png" /></p>
+				<p>Seleccionas en la pestaña MultiMedia, la opción gamelib. Seleccionas "En C", eliges un nombre para el proyecto y le das a aceptar.</p>
+				<p align="center"><img src="compile_execute.png" /></p>
+				<p>Ahora pulsas la tecla <strong>F9</strong> o accedes al menú <strong>Ejecutar</strong> -&gt; <strong>Compilar y Ejecutar</strong>.</p>
+				<p>También puedes probar un pequeño proyecto ya hecho con gamelib: <a href="simple.rar">simple</a>.</p>
+				<p style="color:red;background-color:#ffe0e0;padding:3px 10px;border:1px solid #ff3030;"><strong>RECUERDA:</strong> para poder ejecutar programas hechos con GameLib necesitas <a href="dlls.rar">estas DLL</a></p>
+			</div>
+			<a name="svn"></a>
+			<h1>Acceso SVN</h1>
+			<div class="content">
+				<p>Gamelib se puede descargar desde <strong>SVN</strong> en la dirección:</p>
+				<p>svn co <a href="http://svn.soywiz.com/gamelib/">http://svn.soywiz.com/gamelib/</a> gamelib</p>
+			</div>
+			<a name="contact"></a>
+			<h1>Contacta</h1>
+			<div class="content">
+				<p>¿Quieres colaborar en el proyecto?</p>
+				<p>Escribe un correo a <a href="soywiz@gmail.com">soywiz@gmail.com</a></p>
+			</div>
+		</div>
+	</body>
+</html>

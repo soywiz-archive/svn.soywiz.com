@@ -1,0 +1,157 @@
+<html>
+<head>
+<title>MIPS</title>
+<script src="common.js"></script>
+<script src="string.js"></script>
+<script src="labels.js"></script>
+<script src="memory.js"></script>
+<script src="mips.js"></script>
+</head>
+<body style="cursor:default;">
+<a href="help.html" onclick="openCenteredWindow('help.html', 640, 480, 'scrollbars=1');return false;">Ayuda</a>
+
+<div style="margin-left:52px;">
+	Dirección:
+	<input id="memaddr" maxlength="8" size="8" value="00000000" onfocus="
+		memaddrup = setInterval(function(){
+			mempos = parseInt($('memaddr').value, 16);						
+			if (isNaN(mempos)) mempos = 0;
+			
+			if (cachedmempos != mempos){
+				memoryRefreshCached(true);
+				this.focus();
+			}
+		}, 100);
+	" onblur="clearInterval(memaddrup);memoryRefresh();" style="font:12px Courier New;text-align:left;">
+	<input type="button" value="&lt;" onclick="memoryPageUp();" />
+	<input type="button" value="&gt;" onclick="memoryPageDown();" />
+	
+	<input type="button" value="0x0000"    onclick="memoryGoto(0x00000000);" />
+	<input type="button" value="Code"  onclick="memoryGoto(0x00400000);" />
+	<input type="button" value="Data"  onclick="memoryGoto(0x10000000);" />
+	<input type="button" value="Stack" onclick="memoryGoto(0x80000000 - 0x100);" />
+	<input type="button" value="SO"    onclick="memoryGoto(0x80000000);" />
+</div>
+
+<div id="memoryviewer"></div>
+<div id="registryview"></div>
+
+<textarea id="codetext" style="width:100%;height:220px;">
+.byte 1,2,3
+.word 10
+</textarea>
+<input type="button" value="Compilar" onclick="writeErrors(mips.compileProgram($('codetext').value));memoryRefresh();" />
+<div id="console"></div>
+
+<script>
+	var mips = new MIPS();
+	mips.parseIns(".byte 1,2,3");
+	mips.parseIns(".word 10");
+	//alert(Memory.align(5, 4));
+	
+	var mempos = 0;
+	var cachedmempos = -1;
+	
+	function memoryRefreshCached() {
+		if (cachedmempos == mempos) return;
+		memoryRefresh(1);
+	}
+	
+	function writeErrors(errors) {
+		var html = 'no errors';
+		if (errors && errors.length) {
+			html = '<ul>';
+			for (var k in errors) {
+				html += '<li>' + errors[k] + '</li>';
+			}
+			html += '</ul>';
+		}
+		$('console').innerHTML = html;
+	}
+	
+	function memoryRefresh(noupdate) {
+		if (mempos < 0x00000000) mempos = 0x00000000;
+		else if (mempos > 0xFFFFFFF0) mempos = 0xFFFFFFF0;
+		
+		if ((mempos % 0x10) != 0) mempos = mempos - mempos % 0x10;
+		
+		cachedmempos = mempos;
+		
+		if (!noupdate) $('memaddr').value = mempos.toHex(8);
+		
+		var from = mempos;
+		var nrows = 0x10, ncols = 0x10;
+		
+		var html = '<table cellpadding="0" cellspacing="0"><tr>';
+
+		html += '<td style="color:#0000a0;font-weight:bold;"><pre style="font-size:11px;">';
+		for (var row = 0; row < nrows; row++) html += (from + row * ncols).toHex(8) + "\n";
+		html += '</pre></td>';
+		
+		function getSectionColor(n) {
+			var seccol = 'white';
+			if (n >= 0x00000000 && n < 0x00400000) seccol = '#f5f5f5';
+			if (n >= 0x00400000 && n < 0x10000000) seccol = '#f0f0ff';
+			if (n >= 0x10000000 && n < 0x80000000) seccol = '#fff0f0';
+			if (n >= 0x80000000 && n < 0xFFFFFFFF) seccol = '#f0fff0';
+			return seccol;
+		}
+		
+		html += '<td style="padding-left:12px;padding-right:12px;"><pre style="font-size:11px;">';
+		for (var row = 0; row < nrows; row++) {
+			for (var col = 0; col < ncols; col++) {
+				var n = from + row * ncols + col;
+				var seccol = getSectionColor(n);
+				var c = mips.memory.read8(n);
+				if (mips.memory.used(n)) html += '<span style="background-color:black;color:' + seccol + ';">'; else html += '<span style="background-color:' + seccol + ';color:black;">';
+				html += c.toHex(2);
+				if (col == 7) html += ' ';
+				html += ' </span>';
+			}
+			html += "\n";
+		}
+		html += '</pre></td>';
+
+		html += '<td><pre style="font-size:11px;">';
+		for (var row = 0; row < nrows; row++) {
+			for (var col = 0; col < ncols; col++) {
+				var n = from + row * ncols + col;
+				var seccol = getSectionColor(n);
+				var c = mips.memory.read8(n);
+				if (mips.memory.used(n)) html += '<span style="background-color:black;color:' + seccol + ';">'; else html += '<span style="background-color:' + seccol + ';color:black;">';
+				if (c < 32 || (c >= 0x81 && c <= 0x86)) c = '.'.charCodeAt(0);
+				c = String.fromCharCode(c);
+				
+				html += c + '</span>';					
+			}
+			html += "\n";
+		}
+		html += '</pre></td>';
+
+		html += '</tr></table>';
+		
+		$('memoryviewer').innerHTML = html;
+		
+		//alert();
+	}
+	
+	function memoryPageUp() {
+		mempos -= 16 * 16;
+		memoryRefresh();
+	}
+
+	function memoryPageDown() {
+		mempos += 16 * 16;
+		memoryRefresh();
+	}
+	
+	function memoryGoto(addr) {
+		mempos = addr;
+		memoryRefresh();
+	}
+	
+	memoryRefresh(0);
+</script>
+
+</body>
+</html>

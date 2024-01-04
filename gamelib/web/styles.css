@@ -1,0 +1,151 @@
+body { margin: 0; padding: 0; cursor: default; }
+* {
+	font-family: Arial;
+	font-size: 12px;
+}
+div, p, td, body {
+	color: #1f1f1f;
+}
+#content {
+	/*margin: 0 auto;*/
+	margin: 0 20px 0 220px;
+}
+em {
+	color: #808080;
+}
+h1 {
+	color: #7f7f7f;
+	font: 14px Arial;
+	border-bottom: 1px solid #7f7f7f;
+	padding: 0 0 1px 3px;
+}
+div.content {
+	margin:0 20px;
+	padding: 5px 0 1px 0;
+}
+a { text-decoration: none; color: blue; }
+a:hover { color: red; }
+
+a img { border: 0; }
+
+#menu {
+	position:fixed;left:20px;top:90px;width:160px;background-color:#fafafa;border:2px solid #a0a0a0;padding:2px 6px;
+	-moz-border-radius: 14px 0 14px 0;
+	min-height:100px;
+}
+
+#menu a { text-decoration: none; color: #7f7f7f; }
+#menu a:hover { color: #afafaf; }
+
+#menub {
+	position:absolute;
+	left:157px;
+	top:1px;
+	width:16px;
+	height:16px;
+	cursor:pointer;
+	background-image:url('contract.png');
+}
+
+#menuc ul {
+	list-style: none;
+	margin-left: 0;
+	padding-left: 1em;
+	text-indent: -1em;
+}
+
+#menu ul li:before {
+	content: "\00BB \0020";
+}
+
+.apic {
+	background-color: #f0fFFF;
+	color: #127f12;
+	border: 2px solid #809988;
+	margin: 4px 0;
+	padding: 1px 6px;
+}
+
+fieldset {
+	padding: 3px 12px;
+	margin-bottom: 16px;
+}
+
+fieldset legend {
+	border: 1px solid #7f7f7f;
+	padding: 1px 8px;
+	color: #7f7f7f;
+}
+
+pre.cppcode
+{
+	background: #FFFFFF;
+	color: #000000;;
+	font: 10pt "Lucida Console";
+}
+.cpp01{
+	color: #007F00;
+}
+.cpp02{
+	color: #007F00;
+}
+.cpp03{
+	color: #3F703F;
+}
+.cpp04{
+	color: #007F7F;
+}
+.cpp05{
+	color: #0000EF;
+}
+.cpp06{
+	color: #7F007F;
+}
+.cpp07{
+	color: #7F007F;
+}
+.cpp08{
+	color: #804080;
+}
+.cpp09{
+	color: #7F7F00;
+}
+.cpp10{
+	font-weight: bold;
+}
+.cpp12{
+	background: #E0C0E0;
+}
+.cpp13{
+	background: #E0FFE0;
+	color: #007F00;
+}
+.cpp14{
+	background: #E0F0FF;
+	color: #3F7F3F;
+}
+.cpp15{
+	color: #3F703F;
+}
+.cpp16{
+	color: #B00040;
+}
+.cpp17{
+	color: #3060A0;
+}
+.cpp18{
+	color: #804020;
+}
+.cpp32{
+}
+.cpp34{
+	color: #0000EE;
+	font-weight: bold;
+}
+.cpp35{
+	color: #EE0000;
+	font-weight: bold;
+}
+.cpp36{
+	color: #808080;
+}

@@ -1,0 +1,16 @@
+[Setup]
+Version=0
+AppName=gamelib
+AppVerName=gamelib beta
+AppVersion=0.7beta
+MenuName=gamelib
+Description=El paquete contiene la librería para diseñar juegos en C, gamelib. Usa SDL y OpenGL
+Url=http://personales.alumno.upv.es/carbalve/gamelib/
+Readme=README
+License=
+Picture=
+Dependencies=
+Reboot=0
+[Files]
+gamelib=<app>\
+[Icons]

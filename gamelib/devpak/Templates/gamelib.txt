@@ -1,0 +1,19 @@
+#include <gamelib/gamelib.h>
+
+int main() {
+	VideoModeSetTitle("Simple Example");
+	VideoModeSet(640, 480, true);
+
+	while (!key[_esc]) {
+		VideoModeEnable2D();
+		{
+			ColorSet(1.0f, 1.0f, 1.0f, 0.5f);
+			DrawFilledRectangle(0, 0, screenWidth * 0.75f, screenHeight * 0.75f);
+			DrawFilledRectangle(screenWidth * 0.25f, screenHeight * 0.25f, screenWidth, screenHeight);
+		}
+		VideoModeDisable2D();
+		VideoModeFrame();
+	}
+
+	return 0;
+}

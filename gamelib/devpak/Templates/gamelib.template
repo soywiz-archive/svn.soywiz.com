@@ -1,0 +1,18 @@
+[Template]
+ver=1
+Name=GameLib
+Icon=gamelib.ico
+Description=Ejemplo basico de GameLib
+Catagory=MultiMedia
+
+[Unit0]
+CName=gamain.c
+CppName=gamain.cpp
+C=gamelib.txt
+Cpp=gamelib.txt
+
+[Project]
+UnitCount=1
+Type=0
+Linker=-lmingw32 -lgamelib -lopengl32 -lSDLmain -lSDL -lSDL_net -lSDL_mixer -lSDL_ttf -lSDL_image
+Name=GameLib Demo

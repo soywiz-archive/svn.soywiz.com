@@ -1,0 +1,24 @@
+float function(float x, float pos, float range) {
+	float v;
+	if (abs(pos - x) <= range) {
+		v = 1.0 - (sin((x-pos)*(PI/2.0)/range+PI/2.0) + pos);
+	} else {
+		v = 1.0;
+	}
+	return v;
+}
+
+void evaluatePixel() {
+	result = gaussian(
+		src,
+		outCoord(),
+		function(
+			sampleNearest(
+				mask,
+				outCoord()
+			).r,
+			depth,
+			range
+		)
+	);
+}

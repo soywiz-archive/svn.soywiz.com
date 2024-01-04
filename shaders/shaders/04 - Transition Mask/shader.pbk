@@ -1,0 +1,22 @@
+<languageVersion : 1.0;>
+
+kernel NewFilter<namespace : "Your Namespace"; vendor : "Your Vendor"; version : 1; description : "your description"; > {
+	input  image4 mask;
+	input  image4 src;
+	output pixel4 dst;
+
+	parameter float transition <
+		minValue     : 0.0;
+		defaultValue : 0.0;
+		maxValue     : 1.0;
+	>;
+
+	void evaluatePixel() {
+		dst.rgb = sampleNearest(src, outCoord()).rgb;
+		float alpha = (
+			(transition * 2.0 - 1.0) +
+			sampleNearest(mask, outCoord()).r
+		);
+		dst.a = clamp(alpha, 0.0, 1.0);
+	}
+}

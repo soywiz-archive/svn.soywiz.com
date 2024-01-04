@@ -1,0 +1,38 @@
+<languageVersion : 1.0;>
+
+// http://code.google.com/p/phpmedia/wiki/SampleMandelbrot
+kernel NewFilter < namespace : "Your Namespace"; vendor : "Your Vendor"; version : 1; description : "your description"; > {
+    input image4 src;
+    output pixel4 dst;
+    
+    parameter int maxIterations <defaultValue:10;>;
+    parameter float2 center <
+        minValue:float2(-5.0,-5.0);
+        maxValue:float2(+5.0,+5.0);
+        defaultValue:float2(-2.0, -0.25);
+    >;
+    parameter pixel4 outerColor1 <defaultValue:pixel4(0, 0, 0, 1);>;
+    parameter pixel4 outerColor2 <defaultValue:pixel4(1, 1, 1, 1);>;
+    parameter float zoom <
+        minValue:0.25;
+        maxValue:10.0;
+        defaultValue:0.25;
+    >;
+    
+    void evaluatePixel() {
+        float2 position = outCoord() / float2(512.0, 512.0);
+        float2 z0 = (position) * (1.0 / zoom) + center;
+        float2 z = z0;
+                        
+        dst = pixel4(0.0, 0.0, 0.0, 0.0);
+        for (int iteration = 0; iteration < maxIterations; iteration++)
+        {
+            z = float2((z.x * z.x - z.y * z.y + z0.x), (2.0 * z.x * z.y + z0.y));
+
+            if (dot(z, z) >= 4.0) {
+                dst = mix(outerColor1, outerColor2, float(iteration) / float(maxIterations));
+                break;
+            }
+        }
+    }
+}

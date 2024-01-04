@@ -1,0 +1,21 @@
+<languageVersion : 1.0;>
+
+kernel NewFilter<namespace : "Your Namespace"; vendor : "Your Vendor"; version : 1; description : "your description"; > {
+    input  image4 src0;
+    input  image4 src1;
+    output pixel4 dst;
+    
+	parameter float transition <
+		minValue     : 0.0;
+		defaultValue : 0.0;
+		maxValue     : 1.0;
+	>;
+
+    void evaluatePixel() {
+        dst = mix(
+            sampleNearest(src0, outCoord()),
+            sampleNearest(src1, outCoord()),
+            transition
+        );
+    }
+}

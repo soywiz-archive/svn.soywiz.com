@@ -1,0 +1,13 @@
+input  image4 src;
+output pixel4 dst;
+
+void evaluatePixel() {
+	pixel4 color = sampleNearest(
+		src,
+		outCoord()
+	);
+	pixel4 tint = pixel4(1, 0.5, 0, 1);
+
+	// Multiplicar de Photoshop.
+	dst.rgba = color.bbba * tint;
+}

@@ -1,0 +1,321 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html lang="es">
+	<head>
+		<title>GameLib</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+		<link rel="stylesheet" href="styles.css" type="text/css">
+		<script src="scripts.js"></script>
+	</head>
+	<body>
+		<div id="menu">
+			<div id="menub" onclick="swapmenu();"></div>
+			<div id="menuc">
+				<img src="logo_mini.png" />
+				<ul style="padding:6px 0 8px 18px;margin:0;">
+					<li><a href="index.html">Página principal</a></li>
+					<li>
+						<a href="docs.html"><strong>Documentación</strong></a>
+						<ul style="padding:0 0 6px 18px;margin:0;">
+							<li><a href="docs.html#general">General</a></li>
+							<li><a href="docs.html#videomode">Modo Gráfico</a></li>
+							<li><a href="docs.html#keyboard">Teclado</a></li>
+							<li><a href="docs.html#mouse">Ratón</a></li>
+							<li><a href="docs.html#images">Imágenes</a></li>
+							<li><a href="docs.html#fonts">Fuentes</a></li>
+							<li><a href="docs.html#sound">Sonido</a></li>
+							<li><a href="docs.html#random">Números Aleatorios</a></li>
+						</ul>
+					</li>
+					<li><a href="index.html#ejemplos">Ejemplos</a></li>
+					<li><a href="index.html#windows">Usar GameLib en Windows</a></li>
+					<li><a href="index.html#svn">Subversion</a></li>
+					<li><a href="index.html#contact">Contacta</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="content">
+			<center><img src="logo.png" /><div style="float:right;display:inline;"><a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=0&amp;t=209"><img border="0" alt="Firefox 2" title="Firefox 2" src="http://sfx-images.mozilla.org/affiliates/Buttons/firefox2/firefox-spread-btn-1.png"/></a></div></center>
+
+			<a name="general"></a><h1>General</h1>
+			<div style="margin:0 20px;">
+				<p>Antes de nada, para usar la librería hay que incluir la cabecera <strong>gamelib/gamelib.h</strong> y a la hora de enlazar hay que incluir las librerías: <strong>-lgamelib -lopengl32 -lSDLmain -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf -lSDL_net</strong></p>
+				<p>GameLib aranca automáticamente sin hacer nada mas que incluir la cabecera. Aún así, lo primero que habrá que hacer es crear una ventana con el modo gráfico deseado con <strong>VideoModeSet</strong>.</p>
+				<p>A partir de ese momento, para cada frame, deberás llamar a <strong>VideoModeEnable2D</strong> y después de pintar por pantalla todo lo que quieras, <strong>VideoModeDisable2D</strong> y a <strong>VideoModeFrame</strong> para actualizar el teclado, mantener la aplicación viva y esperar el tiempo necesario para que el juego vaya a una velocidad constante de 60 FPS (por defecto).</p>
+				<p>Adicionalmente se pueden utilizar todas las funciones de SDL, SDL_Image, SDL_Mixer, SDL_net, SDL_ttf y OpenGL para conseguir resultados mas potentes.</p>
+			</div>
+
+			<a name="videomode"></a><h1>Modo Gráfico</h1>
+			<div style="margin:0 20px;">
+				<fieldset>
+					<legend>Funciones Básicas</legend>
+					<div class="apic">void <strong>VideoModeSetTitle</strong>(char *title);</div>
+					<p>Define el título de la ventana especificado por el parámetro title</p>
+					<div class="apic">void <strong>VideoModeSet</strong>(int width, int height, int windowed);</div>
+					<p>Crea una ventana del tamaño especificado por <strong>width</strong> y <strong>height</strong>. El parámetro <strong>window</strong> establece si el juego será en ventana o a pantalla completa. Un número distinto de 0 indicará en ventana, y el valor 0 a pantalla completa.</p>
+					<div class="apic">void <strong>VideoModeEnable2D</strong>();</div>
+					<p>Prepara OpenGL para renderizar objetos en 2 dimensiones.</p>
+					<div class="apic">void <strong>VideoModeDisable2D</strong>();</div>
+					<p>Termina de renderizar objetos en 2 dimiensiones.</p>
+					<div class="apic">void <strong>VideoModeFrame</strong>();</div>
+					<p>Función que se encarga de actualizar el teclado, mostrar por pantalla los cambios realizados, esperar el tiempo necesario para mantener una velocidad constante en el juego y borrar el buffer.</p>
+					<div class="apic">void <strong>ColorSet</strong>(float r, float g, float b, float a);</div>
+					<p>Especifica un color RGBA (rojo, verde, azul y alpha) que se usará para dibujar primitivas y texto. Las componentes son floats cuyo valor debe estar en el rango [0.0f, 1.0f]</p>
+				</fieldset>
+				<fieldset>
+					<legend>Variables Globales</legend>
+					<div class="apic">extern int <strong>screenWidth</strong>, <strong>screenHeight</strong>;</div>
+					<p>Indican el ancho y el alto de la ventana respectivamente una vez creada. Para hacer referencia al centro de la pantalla usaríamos <strong>(screenWidth / 2)</strong> y <strong>(screenHeight / 2)</strong></p>
+				</fieldset>
+				<fieldset>
+					<legend>Funciones Extendidas</legend>
+					<div class="apic">void <strong>VideoModeSetEx</strong>(int widthScreen, int heightScreen, int widthDraw, int heightDraw, int windowed);</div>
+					<p>Función similar a VideoModeSet, a excepción de que permite definir un tamaño virtual. La ventana puede ser, por ejemplo de 800x600 pero trabajar a 640x480, que se reescalará. Esto permite trabajar con la comodidad de una única resolución, pero poder tener varias.</p>
+					<div class="apic">void <strong>VideoModeSetFPS</strong>(int fps);</div>
+					<p>Se encarga de cambiar los frames por segundo del juego (la cantidad de fotogramas que se verán por cada segundo).</p>
+					<div class="apic">int <strong>VideoModeGetFPS</strong>();</div>
+					<p>Obtiene los FPS actuales. Por defecto son 60.</p>
+				</fieldset>
+			</div>
+
+			<a name="keyboard"></a><h1>Teclado</h1>
+			<div style="margin:0 20px;">
+				<fieldset>
+					<legend>Variables Globales</legend>
+					<p>Las variables globales <strong>key</strong> y <strong>keyv</strong> se actualizan al llamar a las funciones <strong>VideoModeFrame</strong> y/o <strong>KeyboardUpdate</strong>. Por regla general para la entrada de teclado, se usarán siempre estas variables globales y rara vez las funciones extendidas.</p>
+					<div class="apic">extern int <strong>keyv</strong>[SDLK_LAST];</div>
+					<p><strong>keyv</strong> es un vector que contiene un valor distinto de 0 si una tecla determinada está en estos momentos pulsada. Ésta se usa para movimientos continuos, sin embargo para introducir texto o elegir entre opciones de menús <strong>key</strong> debería ser la mejor opción.</p>
+					<div class="apic">extern char <strong>key</strong>[SDLK_LAST];</div>
+					<p><strong>key</strong> es un vector que contiene un valor distinto de 0 si la tecla se ha pulsado. Esta variable tiene un retraso de repetición con acleración y puede ser útil para entrada de texto y movimiento en menús con posiciones discretizadas.</p>
+				</fieldset>
+				<fieldset>
+					<legend>Constantes</legend>
+					<p>Contienen los índices de los vectores <strong>key</strong> y <strong>keyv</strong> para esas teclas:</p>
+					<p><strong>_a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r, _s, _t, _u, _v, _w, _x, _y, _z</strong></p>
+					<p><strong>_up, _down, _left, _right</strong></p>
+					<p><strong>_esc, _enter, _space, _lshift, _rshift</strong></p>
+					<p>Ejemplo: <strong>while (!key[_esc]) { ... }</strong> ejecutaría un código mientras no se pulse la tecla escape.</p>
+				</fieldset>
+				<fieldset>
+					<legend>Funciones Extendidas</legend>
+					<div class="apic">void <strong>KeyboardUpdate</strong>();</div>
+					<p>Actualiza las variables <strong>key</strong> y <strong>keyv</strong>. No se suele usar ya que la función <strong>VideoModeFrame</strong> ya la llama internamente.</p>
+					<div class="apic">void <strong>KeyboardSetDelay</strong>(int delay, int interval);</div>
+					<p>Cambia el valor de del retraso entre repeticiones del teclado.</p>
+				</fieldset>
+			</div>
+
+			<a name="mouse"></a><h1>Ratón</h1>
+			<div style="margin:0 20px;">
+			</div>
+
+			<a name="images"></a><h1>Imágenes</h1>
+			<div style="margin:0 20px;">
+				<fieldset>
+					<legend>Estructuras</legend>
+
+<pre class='cppcode'><span class='cpp02'>// Declaramos el tipo &quot;Image&quot;
+</span><span class='cpp05'>typedef</span> <span class='cpp05'>struct</span> _Image _Image<span class='cpp10'>;</span>
+<span class='cpp05'>typedef</span> <span class='cpp05'>struct</span> _Image <span class='cpp10'>*</span>Image<span class='cpp10'>;</span>
+
+<span class='cpp02'>// Estructura de la Imagen
+</span><span class='cpp05'>struct</span> _Image <span class='cpp10'>{</span>
+    <span class='cpp02'>// Imagen padre para subimágenes
+</span>    Image father<span class='cpp10'>;</span>
+
+    <span class='cpp02'>// Coordenadas de la subimágen en la imagen real
+</span>    <span class='cpp05'>int</span> x<span class='cpp10'>,</span> y<span class='cpp10'>,</span> w<span class='cpp10'>,</span> h<span class='cpp10'>;</span>
+
+    <span class='cpp02'>// Centro de la imagen
+</span>    <span class='cpp05'>int</span> cx<span class='cpp10'>,</span> cy<span class='cpp10'>;</span>
+
+    <span class='cpp02'>// Ancho y altos reales de la imagen
+</span>    <span class='cpp05'>int</span> rw<span class='cpp10'>,</span> rh<span class='cpp10'>;</span>
+
+    <span class='cpp02'>// Textura OpenGL
+</span>    GLuint gltex<span class='cpp10'>;</span>
+
+    <span class='cpp02'>// CallList para renderización rápida
+</span>    GLuint callList<span class='cpp10'>;</span>
+
+    <span class='cpp02'>// Lista de puntos en la imágen
+</span>    <span class='cpp05'>struct</span> <span class='cpp10'>{</span> <span class='cpp05'>float</span> x<span class='cpp10'>,</span> y<span class='cpp10'>;</span> <span class='cpp10'>}</span> texp<span class='cpp10'>[</span><span class='cpp04'>2</span><span class='cpp10'>];</span>
+<span class='cpp10'>};</span></pre>
+				</fieldset>
+
+				<fieldset>
+					<legend>Funciones de Carga y Descarga</legend>
+					<p>GameLib utiliza SDL_Image para la carga de imágenes. Actualmente SDL_Image soporta los siguientes formatos: <strong>BMP, GIF, JPEG, LBM, PCX, PNG, PNM, TGA, TIFF, XCF, XPM, XV</strong></p>
+					<div class="apic">Image <strong>ImageCreate</strong>(int w, int h);</div>
+					<p>Crea una imagen vacía de tamaño <strong>w</strong>x<strong>h</strong></p>
+					<div class="apic">Image <strong>ImageCreateFromSubImage</strong>(Image vpi, int x, int y, int w, int h);</div>
+					<p>Crea una imagen a partir de un recorte de otra mas grande. La textura no se duplica, así que en la memória gráfica ocupa lo mismo.</p>
+					<div class="apic">Image <strong>ImageLoadFromStream</strong>(Stream s);</div>
+					<p>Carga una imagen a partir de un stream.</p>
+					<div class="apic">Image <strong>ImageLoadFromMemory</strong>(void *ptr, int length);</div>
+					<p>Carga una imagen a partir de un bloque de memória determinado por un puntero y una longitud.</p>
+					<div class="apic">Image <strong>ImageLoadFromFile</strong>(char *filename);</div>
+					<p>Carga una imagen a partir de un fichero.</p>
+					<div class="apic">Image <strong>ImageDuplicate</strong>(Image i);</div>
+					<p>Duplica una imagen. La imagen tiene distintos atributos, pero en la memória de video, representa la misma textura. Sirve para poder definir diferentes imágenes con diferentes estados, por ejemplo diferente centro de imagen.</p>
+					<div class="apic">void  <strong>ImageFree</strong>(Image i);</div>
+					<p>Libera una imagen creada por cualquiera de las funciones de arriba.</p>
+				</fieldset>
+
+				<fieldset>
+					<legend>Funciones de Información</legend>
+					<div class="apic">void <strong>ImageSetCXY</strong>(Image i, int cx, int cy);</div>
+					<p>Establece el punto de centrado de una imagen. Al cargar o crear una imagen, el punto de centrado por defecto es el <strong>0, 0</strong>.
+					Una operación muy común es establecer como centro, el propio centro de la imagen: <strong>ImageSetCXY(image, image-&gt;w / 2, image-&gt;h / 2);</strong></p>
+				</fieldset>
+
+				<fieldset>
+					<legend>Funciones de Renderizado</legend>
+					<div class="apic">void <strong>DrawImage</strong>(Image i, int x, int y);</div>
+					<p>Permite dibujar una imagen sobre la pantalla en las coordenadas especificadas.</p>
+					<div class="apic">void <strong>DrawImageEx</strong>(Image i, int x, int y, float size, float angle, float alpha);</div>
+					<p>Permite dibujar una imagen sobre la pantalla en las coordenadas especificadas con atributos de tamaño, ángulo y alpha.
+					Un tamaño de 1.0 es el tamaño de la imagen original, 2.0 el doble y 0.5 la mitad. Los ángulos se miden en grados [0.0f, 320.0f].
+					Y el <strong>alpha</strong> es un valor entre [0.0f, 1.0f]; 1.0f es una imagen opaca, un vakir 0.0f es una imagen completamente transparente (no se ve)</p>
+				</fieldset>
+
+				<fieldset>
+					<legend>Funciones de Renderizado sobre Texturas</legend>
+					<div class="apic">int  <strong>ImageStartDrawing</strong>(Image i);</div>
+					<p>Función que al llamarse, permite dibujar sobre una imagen. Devuelve 0 si tuvo éxito. Una vez llamada con éxito, hará que todas las funciones de dibujado, afecten a la imagen en vez de a la pantalla hasta que se llame a <strong>ImageStopDrawing</strong>.</p>
+					<div class="apic">void <strong>ImageStopDrawing</strong>();</div>
+					<p>Esta función se llama cuando se ha terminado de dibujar sobre la textura, para volver a dibujar sobre la pantalla.</p>
+				</fieldset>
+
+				<fieldset>
+					<legend>Funciones de Renderizado de primitivas</legend>
+					<p>Estas funciones permiten dibujar primitivas sobre la pantalla con un color especificado por la función <strong>ColorSet</strong></p>
+					<div class="apic">void <strong>DrawLine</strong>(int x1, int y1, int x2, int y2);</div>
+					<p>Dibuja una linea que une los dos puntos especificados.</p>
+					<div class="apic">void <strong>DrawRectangle</strong>(int x1, int y1, int x2, int y2);</div>
+					<p>Dibuja un rectángulo determinado por los dos puntos especificados.</p>
+					<div class="apic">void <strong>DrawFilledRectangle</strong>(int x1, int y1, int x2, int y2);</div>
+					<p>Dibuja un rectángulo relleno determinado por los dos puntos especificados.</p>
+					<div class="apic">void <strong>DrawClear</strong>();</div>
+					<p>Borra toda la pantalla (o imagen).</p>
+				</fieldset>
+			</div>
+
+			<a name="fonts"></a><h1>Fuentes</h1>
+			<div style="margin:0 20px;">
+				<fieldset>
+					<legend>Estructuras</legend>
+<pre class='cppcode'><span class='cpp05'>typedef</span> <span class='cpp05'>struct</span> <span class='cpp10'>{</span>
+    <span class='cpp05'>int</span>    h<span class='cpp10'>;</span>
+    <span class='cpp05'>int</span>    w<span class='cpp10'>[</span><span class='cpp04'>0x100</span><span class='cpp10'>];</span>
+    GLuint textures<span class='cpp10'>[</span><span class='cpp04'>0x100</span><span class='cpp10'>];</span>
+    GLuint listBase<span class='cpp10'>;</span>
+<span class='cpp10'>}</span> <span class='cpp10'>*</span>Font<span class='cpp10'>,</span> _Font<span class='cpp10'>;</span></pre>
+
+				</fieldset>
+
+				<fieldset>
+					<legend>Funciones de Carga y Descarga</legend>
+					<div class="apic">Font <strong>FontLoadFromFile</strong>(char *filename, int height);</div>
+					<p>Carga una fuente TTF a partir de un fichero. Hay que especificarle el alto de dicha fuente.</p>
+					<div class="apic">Font <strong>FontLoadFromMemory</strong>(void *ptr, int length, int height);</div>
+					<p>Carga una fuente TTF a partir de un bloque de memória, determinado por un puntero y una longitud. Hay que especificarle el alto de dicha fuente.</p>
+					<div class="apic">Font <strong>FontLoadFromStream</strong>(Stream s, int height);</div>
+					<p>Carga una fuente TTF a partir de una stream. Hay que especificarle el alto de dicha fuente.</p>
+					<div class="apic">void <strong>FontFree</strong>(Font f);</div>
+					<p>Libera una fuente cargada con algunas de las funciones <strong>FontLoad</strong>.</p>
+				</fieldset>
+
+				<fieldset>
+					<legend>Funciones de Información</legend>
+					<div class="apic">int <strong>FontWidth</strong>(Font f, char *text);</div>
+					<p>Obtiene el ancho que ocuparía un determinado texto con una fuente determinada. Adicionalmente se puede obtener el alto de la fuente utilizando el campo <strong>h</strong> de la estructura <strong>Font</strong>: <strong>font-&gt;h</strong></p>
+				</fieldset>
+
+				<fieldset>
+					<legend>Funciones de Dibujado</legend>
+					<div class="apic">void <strong>DrawFontText</strong>(Font font, int x, int y, char *text);</div>
+					<p>Dibuja un texto en las coordenadas x, y con la fuente especificada.</p>
+					<div class="apic">void <strong>DrawFontTextf</strong>(Font font, int x, int y, char *format, ...);</div>
+					<p>Dibuja un texto con formato en las coordenadas x, y con la fuente especificada. El formato es el mismo utilizado en las funciones <strong>(s)printf</strong></p>
+				</fieldset>
+			</div>
+
+			<a name="sound"></a><h1>Sonido</h1>
+			<div style="margin:0 20px;">
+				<fieldset>
+					<legend>Variables Globales</legend>
+					<div class="apic">extern Channel freeChanel;</div>
+					<p>Es el canal -1 que siempre será un canal libre</p>
+				</fieldset>
+				<fieldset>
+					<legend>Funciones de Música</legend>
+
+					<p>La música de fondo tiene un canal propio. Se puede reproducir como música ficheros <strong>MP3, OGG, MOD, IT, XM, S3M</strong>. Los archivos de música solo se peuden cargar desde ficheros.</p>
+
+					<div class="apic">Music <strong>MusicLoadFromFile</strong>(char *filename);</div>
+					<p></p>
+
+					<div class="apic">void  <strong>MusicFree</strong>(Music m);</div>
+					<p>Libera una música cargada con <strong>MusicLoadFromFile</strong>.</p>
+					<div class="apic">int   <strong>MusicPlay</strong>(Music m);</div>
+					<p>Reproduce una canción especificada.</p>
+					<div class="apic">int   <strong>MusicPlayEx</strong>(Music m, int loops, int fadems, int position);</div>
+					<p>Reproduce una canción en un canal especificado, un número determinado de veces (loops = 0 --&gt; 1 vez), la cantidad de milisegundos para hacer un fadein y la posición desde dónde comienza.</p>
+					<div class="apic">void  <strong>MusicFadeOut</strong>(int ms);</div>
+					<p>Crea un fadeout de la música con una duración en milisegundos. Al terminar, el sonido será pausado.</p>
+					<div class="apic">void  <strong>MusicStop</strong>();</div>
+					<p>Detiene la reproducción de la canción.</p>
+					<div class="apic">void  <strong>MusicSetVolume</strong>(float v);</div>
+					<p>Especifica el volumen de reproducción de la canción.</p>
+					<div class="apic">float <strong>MusicGetVolume</strong>();</div>
+					<p>Obtiene el volumen de reproducción de la canción.</p>
+				</fieldset>
+
+				<fieldset>
+					<legend>Funciones de Muestras y Canales</legend>
+
+					<p>Los sonidos pueden ser ficheros <strong>WAV, MP3, OGG</strong>, se pueden cargar de Streams, Memória y Ficheros. Las muestras de sonido se reproducen en canales. Solo se puede reproducir u nsonido a la vez por canal. Si hay varios sonidos reproduciéndose a la vez en varios canales, se mezclarán.</p>
+
+					<div class="apic">Sound <strong>SoundLoadFromStream</strong>(Stream s);</div>
+					<p>Carga un sonido desde un Stream.</p>
+					<div class="apic">Sound <strong>SoundLoadFromMemory</strong>(void *ptr, int length);</div>
+					<p>Carga un sonido desde una zona de memoria.</p>
+					<div class="apic">Sound <strong>SoundLoadFromFile</strong>(char *filename);</div>
+					<p>Carga un sonido desde un fichero.</p>
+					<div class="apic">void  <strong>SoundFree</strong>(Sound s);</div>
+					<p>Libera un sonido cargado con las funciones de arriba.</p>
+
+					<div class="apic">Channel <strong>SoundPlay</strong>(Sound s);</div>
+					<p>Reproduce un sonido en un canal libre y devuelve dicho canal.</p>
+					<div class="apic">Channel <strong>SoundPlayEx</strong>(Sound s, Channel channel, int loops, int fadems, int ticks);</div>
+					<p>Reproduce un sonido en un canal especificado, un número determinado de veces (loops = 0 --&gt; 1 vez), la cantidad de milisegundos para hacer un fadein y los ticks desde dónde comienza.</p>
+
+					<div class="apic">void <strong>ChannelPause</strong>(Channel c);</div>
+					<p>Pausa la reproducción de un sonido en el canal especificado.</p>
+					<div class="apic">void <strong>ChannelResume</strong>(Channel c);</div>
+					<p>Reanuda la reproducción de un sonido en el canal especificado.</p>
+					<div class="apic">void <strong>ChannelStop</strong>(Channel c);</div>
+					<p>Detiene la reproducción de un sonido en el canal especificado.</p>
+					<div class="apic">void <strong>ChannelStopAfter</strong>(Channel c, int ms);</div>
+					<p>Detiene la reproducción de un sonido en el canal especificado pasados una cantidad de milisegundos.</p>
+					<div class="apic">void <strong>ChannelFadeOut</strong>(Channel c, int ms);</div>
+					<p>Crea un fadeout del sonido en el canal especificado con una duración en milisegundos. Al terminar, el sonido será pausado.</p>
+
+					<div class="apic">bool <strong>ChannelIsPlaying</strong>(Channel c);</div>
+					<p>Indica si en el canal especificado se está reproduciendo un sonido..</p>
+				</fieldset>
+			</div>
+
+			<a name="random"></a><h1>Números Aleatorios</h1>
+			<div style="margin:0 20px;">
+				<fieldset>
+					<legend>Funciones de Generación de Números Aleatorios</legend>
+					<div class="apic">void <strong>genrand_init</strong>();</div>
+					<p>Inicializa el módulo de generación de números aleatorios. Se usan los segundos y milisegundos del sistema para determinar la semilla.</p>
+					<div class="apic">int <strong>genrand_between</strong>(int from, int to);</div>
+					<p>Obtiene un número al azar entre los valores <strong>from</strong> y <strong>to</strong> especificados.</p>
+				</fieldset>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,23 @@
+<languageVersion : 1.0;>
+
+kernel NewFilter<namespace : "Your Namespace"; vendor : "Your Vendor"; version : 1; description : "your description"; > {
+    input  image4 src;
+    output pixel4 dst;
+    
+    /*
+    parameter float2 size <
+        value    : float2(1, 1);
+        minValue : float2(1, 1);
+        maxValue : float2(64, 64);
+    >;
+    */
+    parameter float size <
+        value    : 1.0;
+        minValue : 1.0;
+        maxValue : 64.0;
+    >;
+
+    void evaluatePixel() {
+        dst = sampleNearest(src, floor(outCoord() / size) * size);
+    }
+}

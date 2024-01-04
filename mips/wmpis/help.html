@@ -1,0 +1,101 @@
+<html>
+<head>
+<title>MIPS</title>
+</head>
+<body>
+
+<p><a href=".">MIPSkit</a></p>
+
+<!---------------------------------------------------------------------------->
+<h3><a name="memory_mapping">Mapeado de memória</a></h3>
+
+<table>
+	<tr><th>Rango</th><th>Descripción</th></tr>
+	
+	<tr><td>0x00000000-0x003FFFFF</td><td>Reservado</td></tr>
+	<tr><td>0x00400000-0x0FFFFFFF</td><td>Programa</td></tr>
+	<tr><td>0x10000000-0x7FFFFFFF</td><td>Datos (estáticos/dinámicos/pila)</td></tr>
+	<tr><td>0x80000000-0xFFFFFFFF</td><td>Sistema Operativo</td></tr>
+</table>
+
+<!---------------------------------------------------------------------------->
+<h3><a name="instruction_types">Tipos de instrucciones</a></h3>
+
+<h4>Por codificación:</h4>
+<ul>
+	<li>Tipo <strong>R</strong> (Registry) - Opera con registros</li>
+	<li>Tipo <strong>I</strong> (Immediate) - Opera con un valor inmediato</li>
+	<li>Tipo <strong>J</strong> (Jump) - Contiene un salto largo</li>
+</ul>
+
+<h4>Por función:</h4>
+<ul>
+	<li>Aritmetico/lógicas</li>
+	<li>De salto</li>
+	<li>Transferencia de memória</li>
+</ul>		
+
+<!---------------------------------------------------------------------------->
+<h3><a name="register_list">Registros</a></h3>
+
+
+<h4>Banco de registros principal</h4>
+
+<table>
+	<tr><th>Registro</th><th>Mnemónico</th><th>Nombre</th><th>Descripción</th></tr>
+	
+	<tr><td>$0 </td><td>zero</td><td>Zero</td><td>Valor 0</td></tr>
+	
+	<tr><td>$1 </td><td>at</td><td>Assembler Temporal</td><td>Registro temporal para instrucciones macro</td></tr>	
+	
+	<tr><td>$2 </td><td>v0</td><td>Value (0)</td><td>Valor de retorno</td></tr>
+	<tr><td>$3 </td><td>v1</td><td>Value (1)</td><td>Valor de retorno</td></tr>
+	
+	<tr><td>$4 </td><td>a0</td><td>Argument (0)</td><td>Argumento pasado a función</td></tr>
+	<tr><td>$5 </td><td>a1</td><td>Argument (1)</td><td>Argumento pasado a función</td></tr>
+	<tr><td>$6 </td><td>a2</td><td>Argument (2)</td><td>Argumento pasado a función</td></tr>
+	<tr><td>$7 </td><td>a3</td><td>Argument (3)</td><td>Argumento pasado a función</td></tr>
+	
+	<tr><td>$8 </td><td>t0</td><td>Temporal (0)</td><td>Valor temporal no preservado entre funciones</td></tr>
+	<tr><td>$9 </td><td>t1</td><td>Temporal (1)</td><td>Valor temporal no preservado entre funciones</td></tr>
+	<tr><td>$10</td><td>t2</td><td>Temporal (2)</td><td>Valor temporal no preservado entre funciones</td></tr>
+	<tr><td>$11</td><td>t3</td><td>Temporal (3)</td><td>Valor temporal no preservado entre funciones</td></tr>
+	<tr><td>$12</td><td>t4</td><td>Temporal (4)</td><td>Valor temporal no preservado entre funciones</td></tr>
+	<tr><td>$13</td><td>t5</td><td>Temporal (5)</td><td>Valor temporal no preservado entre funciones</td></tr>
+	<tr><td>$14</td><td>t6</td><td>Temporal (6)</td><td>Valor temporal no preservado entre funciones</td></tr>
+	<tr><td>$15</td><td>t7</td><td>Temporal (7)</td><td>Valor temporal no preservado entre funciones</td></tr>
+	
+	<tr><td>$16</td><td>s0</td><td>Stored (0)</td><td>Valor preservado entre funciones</td></tr>
+	<tr><td>$17</td><td>s1</td><td>Stored (1)</td><td>Valor preservado entre funciones</td></tr>
+	<tr><td>$18</td><td>s2</td><td>Stored (2)</td><td>Valor preservado entre funciones</td></tr>
+	<tr><td>$19</td><td>s3</td><td>Stored (3)</td><td>Valor preservado entre funciones</td></tr>
+	<tr><td>$20</td><td>s4</td><td>Stored (4)</td><td>Valor preservado entre funciones</td></tr>
+	<tr><td>$21</td><td>s5</td><td>Stored (5)</td><td>Valor preservado entre funciones</td></tr>
+	<tr><td>$22</td><td>s6</td><td>Stored (6)</td><td>Valor preservado entre funciones</td></tr>
+	<tr><td>$23</td><td>s7</td><td>Stored (7)</td><td>Valor preservado entre funciones</td></tr>
+	
+	<tr><td>$24</td><td>t8</td><td>Temporal (8)</td><td>Valor temporal no preservado entre funciones</td></tr>
+	<tr><td>$25</td><td>t9</td><td>Temporal (9)</td><td>Valor temporal no preservado entre funciones</td></tr>
+	<tr><td>$26</td><td>k0</td><td>?</td><td>?</td></tr>
+	<tr><td>$27</td><td>k1</td><td>?</td><td>?</td></tr>
+	
+	<tr><td>$28</td><td>gp</td><td>Global Pointer</td><td>Puntero a la heap</td></tr>
+	<tr><td>$29</td><td>sp</td><td>Stack Pointer</td><td>Puntero a la pila</td></tr>
+	
+	<tr><td>$30</td><td>s8</td><td>Stored (8)</td><td>Valor preservado entre funciones</td></tr>
+	
+	<tr><td>$31</td><td>ra</td><td>Return Address</td><td>Dirección de retorno de la función</td></tr>
+	
+</table>
+
+<h4>Registros especiales</h4>
+	
+<table>
+	<tr><th>Registro</th><th>Nombre</th><th>Descripción</th></tr>
+	
+	<tr><td>PC</td><td>Program Counter</td><td>Dirección de la instrucción a ejecutar</td></tr>
+	<tr><td>HI</td><td>High</td><td>Resto de una división entera/Parte alta de una multiplicación</td></tr>
+	<tr><td>LO</td><td>Low</td><td>Resultado de una división entera/Parte baja de una multiplicación</td></tr>
+</table>	
+</body>
+</html>
